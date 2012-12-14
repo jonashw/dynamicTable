@@ -25,18 +25,20 @@
 				Fires when a formerly-ordered column loses its order (like when another column is ordered).
 		Configuration:
 			Markup:
-				table[data-table-dynamic-searchable="false"]
+				table[data-dynamic-table-searchable="false"]
 					Disables searching on an entire table
-				table[data-table-dynamic-orderable="false"]
+				table[data-dynamic-table-orderable="false"]
 					Disables ordering on an entire table
-				th[data-table-dynamic-searchable="false"]
+				th[data-dynamic-table-searchable="false"]
 					A column is excluded from a value search when its TH has an attribute/value of data-dynamic-table-searchable="false"
-				th[data-table-dynamic-orderable="false"]
+				th[data-dynamic-table-orderable="false"]
 					A column cannot be ordered when its TH has an attribute/value of data-dynamic-table-orderable="false"
-				td[data-table-dynamic-order-value="ugly but orderable value"]
+				td[data-dynamic-table-order-value="ugly but orderable value"]
 					A table cell can *display* its data one way and be *ordered* by its data another way.
 					(ie. Pretty but unsortable dates [Nov 10, 2012] VS. ugly but sortable dates [2012-11-10])
 					Note: This order value is also searchable.
+			Constructor Options:
+				case_sensitive [boolean, default: true]
  */
 (function($){
 	$.fn.dynamicTable = function( method ) {
@@ -50,7 +52,11 @@
 	};
 	var methods = {
 
-		init: function(){
+		init: function(options){
+			var settings = $.extend({
+				case_sensitive:true
+			}, options);
+
 			return this.each(function(){
 				var table = $(this);
 				var head = table.find('thead');
@@ -73,7 +79,7 @@
 						searchableColumns.push(i);
 					}
 				});
-				var data={table:table, tbody:tbody, rows:rows, ths:ths, orderableColumns:orderableColumns, searchableColumns:searchableColumns};
+				var data={table:table, tbody:tbody, rows:rows, ths:ths, orderableColumns:orderableColumns, searchableColumns:searchableColumns, settings:settings};
 				table.data('dynamicTable',data);
 			});
 		},
@@ -98,7 +104,7 @@
 
 		search: function(term){
 			var data = $(this).data('dynamicTable');
-			var term = new RegExp(term,'i');//case-insensitive
+			var term = data.settings.case_sensitive ? new RegExp(term) : new RegExp(term,'i');
 			var matchedTRs = [];
 			var unmatchedTRs = [];
 			data.rows.each(function(){

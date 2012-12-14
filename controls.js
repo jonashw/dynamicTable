@@ -23,7 +23,7 @@ $(function(){
 		var ordered_th_indicator;
 		var ordered_th;
 		var current_order;
-		table.dynamicTable();
+		table.dynamicTable({case_sensitive:false});
 		table.dynamicTable('getOrderableTHs').each(function(){
 			var th =  $(this);
 			//each TH needs three indicators
