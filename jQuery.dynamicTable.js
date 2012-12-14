@@ -1,3 +1,43 @@
+/*
+ *	dynamicTable:	A jQuery plugin that re-arranges and filters an HTML table based on commands
+ *
+ *		written by Jonathan Wilson (2012)
+ *
+ *		Note: 	Beyond DOM re-organization (moves, shows, hides), the affected HTML tables are not decorated in any way.
+ *				A separate UI module will be needed to interpret user intent (issue commands) and to display current state.
+ *
+	Public API:
+		Methods:
+			$().dynamicTable()
+				Constructor
+			$().dynamicTable('search',term)
+				Filter rows from the table based on the search term, term
+			$().dynamicTable('order',i,asc)
+				Order the table's rows based on the value of the i'th orderable column.  Ordering is reversed if asc==false.
+			$().dynamicTable('getOrderableTHs')
+				Returns a jQuery object holding a reference to the TH of each sortable column.
+			$().dynamicTable('getSearchableTHs')
+				Returns a jQuery object holding a reference to the TH of each searchable column.
+		Events:
+			th.order [asc]
+				Fires when the column belonging to the TH is ordered.  Order is indicated by asc (asc==true indicates Ascending order).
+			th.disorder
+				Fires when a formerly-ordered column loses its order (like when another column is ordered).
+		Configuration:
+			Markup:
+				table[data-table-dynamic-searchable="false"]
+					Disables searching on an entire table
+				table[data-table-dynamic-orderable="false"]
+					Disables ordering on an entire table
+				th[data-table-dynamic-searchable="false"]
+					A column is excluded from a value search when its TH has an attribute/value of data-dynamic-table-searchable="false"
+				th[data-table-dynamic-orderable="false"]
+					A column cannot be ordered when its TH has an attribute/value of data-dynamic-table-orderable="false"
+				td[data-table-dynamic-order-value="ugly but orderable value"]
+					A table cell can *display* its data one way and be *ordered* by its data another way.
+					(ie. Pretty but unsortable dates [Nov 10, 2012] VS. ugly but sortable dates [2012-11-10])
+					Note: This order value is also searchable.
+ */
 (function($){
 	$.fn.dynamicTable = function( method ) {
 		if ( methods[method] ) {
@@ -9,6 +49,7 @@
 		}    
 	};
 	var methods = {
+
 		init: function(){
 			return this.each(function(){
 				var table = $(this);
@@ -19,20 +60,24 @@
 				var rows = tbody.find('tr');//!important
 				var orderableColumns=[];//!important
 				var searchableColumns=[];//!important
+				var table_data = table.data();
+				var table_searchable = !('dynamicTableSearchable' in table_data) || table_data.dynamicTableSearchable;
+				var table_orderable = !('dynamicTableOrderable' in table_data) || table_data.dynamicTableOrderable;
 				head.find('th').each(function(i){
 					var th = $(this);
 					var data = th.data();
-					if(!('dynamicTableOrderable' in data) || data.dynamicTableOrderable == 'true'){
+					if(table_orderable && (!('dynamicTableOrderable' in data) || data.dynamicTableOrderable == 'true')){
 						orderableColumns.push(i);
 					}
-					if(!('dynamicTableSearchable' in data) || data.dynamicTableSearchable == 'true'){
+					if(table_searchable && (!('dynamicTableSearchable' in data) || data.dynamicTableSearchable == 'true')){
 						searchableColumns.push(i);
 					}
 				});
-				var data={tbody:tbody, rows:rows, ths:ths, orderableColumns:orderableColumns, searchableColumns:searchableColumns};
+				var data={table:table, tbody:tbody, rows:rows, ths:ths, orderableColumns:orderableColumns, searchableColumns:searchableColumns};
 				table.data('dynamicTable',data);
 			});
 		},
+
 		getOrderableTHs: function(){
 			var data = $(this).data('dynamicTable');
 			var $list = $();
@@ -41,6 +86,7 @@
 			}
 			return $list;
 		},
+		
 		getSearchableTHs: function(){
 			var data = $(this).data('dynamicTable');
 			var $list = $();
@@ -49,6 +95,7 @@
 			}
 			return $list;
 		},
+
 		search: function(term){
 			var data = $(this).data('dynamicTable');
 			var term = new RegExp(term,'i');//case-insensitive
@@ -77,6 +124,7 @@
 			for(var i in unmatchedTRs) unmatchedTRs[i].hide();
 			for(var i in matchedTRs) matchedTRs[i].show();
 		},
+
 		order: function(column, direction){
 			var data = $(this).data('dynamicTable');
 			if(typeof direction === 'undefined') direction = true;

@@ -1,13 +1,24 @@
 $(function(){
 	$('table').each(function(){
 		var table = $(this);
-		$("#search")
-			.on('keydown keyup',function(){
-				var term = $(this).val();
-				table.dynamicTable('search',term);
-			})
-			.val('')
-		;
+		var table_data = table.data();
+		if(!('dynamicTableSearchable' in table_data) || table_data.dynamicTableSearchable){
+			//searchable!
+			var searchInput = $('<input>').attr({type:'search', placeholder:'Search'});
+			var searchContainer = table.find('.dynamicTable-searchContainer');
+			if(searchContainer.length){
+				searchInput.appendTo(searchContainer).css('margin',0);
+			} else {
+				searchInput.insertBefore(table);
+			}
+			searchInput
+				.on('keydown keyup',function(){
+					var term = $(this).val();
+					table.dynamicTable('search',term);
+				})
+				.val('')
+			;
+		}
 		//three important bits of mutable state
 		var ordered_th_indicator;
 		var ordered_th;

@@ -7,7 +7,7 @@
 	<title></title>
 	<script src="/universal/javascript/jquery.js"></script>
 	<link rel="stylesheet" href="http://dev.ucanr.edu/jw/dynamicTable/bootstrap/css/bootstrap.css">
-	<script src="model.js"></script>
+	<script src="jQuery.dynamicTable.js"></script>
 	<script src="controls.js"></script>
 	<style>
 		th.orderable {
@@ -16,16 +16,14 @@
 	</style>
 </head>
 <body style="padding:1em;">
-	<table class="table table-bordered">
+	<table class="table table-bordered" data-dynamic-table-orderable="true" data-dynamic-table-searchable="true">
 		<thead>
 			<tr>
 				<th>Last Name</th>
 				<th>First Name</th>
 				<th>Date of Birth</th>
 				<th>Status</th>
-				<th data-dynamic-table-orderable="false" data-dynamic-table-searchable="false">
-					<input id="search" type="search" placeholder="Search" style="margin:0;">
-				</th>
+				<th data-dynamic-table-orderable="false" data-dynamic-table-searchable="false" class="dynamicTable-searchContainer"></th>
 			</tr>
 		</thead>
 		<tbody>
