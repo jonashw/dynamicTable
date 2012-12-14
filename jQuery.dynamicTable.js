@@ -78,7 +78,8 @@
 						searchableColumns.push(i);
 					}
 				});
-				var data={table:table, tbody:tbody, rows:rows, ths:ths, orderableColumns:orderableColumns, searchableColumns:searchableColumns, settings:settings};
+				var noResults = $('<td></td>').text('No matches').attr('colspan',ths.length).wrap($('<tr></tr>'));
+				var data={table:table, tbody:tbody, rows:rows, ths:ths, orderableColumns:orderableColumns, searchableColumns:searchableColumns, settings:settings, noResults:noResults};
 				table.data('dynamicTable',data);
 			});
 		},
@@ -106,6 +107,7 @@
 			var term = data.settings.case_sensitive ? new RegExp(term) : new RegExp(term,'i');
 			var matchedTRs = [];
 			var unmatchedTRs = [];
+			data.noResults.detach();
 			data.rows.each(function(){
 				var tr = $(this);
 				var rowContents=[];
@@ -128,6 +130,7 @@
 			});
 			for(var i in unmatchedTRs) unmatchedTRs[i].hide();
 			for(var i in matchedTRs) matchedTRs[i].show();
+			if(!matchedTRs.length) data.noResults.appendTo(data.tbody);
 		},
 
 		order: function(column, direction){
