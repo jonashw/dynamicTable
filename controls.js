@@ -1,8 +1,7 @@
 $(function(){
 	$('table').each(function(){
 		var table = $(this);
-		var table_data = table.data();
-		if(!('dynamicTableSearchable' in table_data) || table_data.dynamicTableSearchable){
+		if(!table.hasClass('dynamicTable-notSearchable')){
 			//searchable!
 			var searchInput = $('<input>').attr({type:'search', placeholder:'Search'});
 			var searchContainer = table.find('.dynamicTable-searchContainer');

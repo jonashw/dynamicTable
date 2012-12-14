@@ -16,14 +16,14 @@
 	</style>
 </head>
 <body style="padding:1em;">
-	<table class="table table-bordered" data-dynamic-table-orderable="true" data-dynamic-table-searchable="true">
+	<table class="table table-bordered">
 		<thead>
 			<tr>
 				<th>Last Name</th>
 				<th>First Name</th>
 				<th>Date of Birth</th>
 				<th>Status</th>
-				<th data-dynamic-table-orderable="false" data-dynamic-table-searchable="false" class="dynamicTable-searchContainer"></th>
+				<th class="dynamicTable-notOrderable dynamicTable-notSearchable dynamicTable-searchContainer"></th>
 			</tr>
 		</thead>
 		<tbody>

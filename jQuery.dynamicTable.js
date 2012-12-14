@@ -12,8 +12,8 @@
 				Constructor
 			$().dynamicTable('search',term)
 				Filter rows from the table based on the search term, term
-			$().dynamicTable('order',i,asc)
-				Order the table's rows based on the value of the i'th orderable column.  Ordering is reversed if asc==false.
+			$().dynamicTable('order',i[,asc=true])
+				Order the table's rows based on the value of the i'th orderable column.  Ordering is reversed if asc==false (asc=true by default).
 			$().dynamicTable('getOrderableTHs')
 				Returns a jQuery object holding a reference to the TH of each sortable column.
 			$().dynamicTable('getSearchableTHs')
@@ -25,14 +25,14 @@
 				Fires when a formerly-ordered column loses its order (like when another column is ordered).
 		Configuration:
 			Markup:
-				table[data-dynamic-table-searchable="false"]
+				table.dynamicTable-notSearchable
 					Disables searching on an entire table
-				table[data-dynamic-table-orderable="false"]
+				table.dynamicTable-notOrderable
 					Disables ordering on an entire table
-				th[data-dynamic-table-searchable="false"]
-					A column is excluded from a value search when its TH has an attribute/value of data-dynamic-table-searchable="false"
-				th[data-dynamic-table-orderable="false"]
-					A column cannot be ordered when its TH has an attribute/value of data-dynamic-table-orderable="false"
+				th.dynamicTable-notSearchable
+					A column is excluded from a value search when its TH has this class
+				th.dynamicTable-notOrderable
+					A column cannot be ordered when its TH has this class
 				td[data-dynamic-table-order-value="ugly but orderable value"]
 					A table cell can *display* its data one way and be *ordered* by its data another way.
 					(ie. Pretty but unsortable dates [Nov 10, 2012] VS. ugly but sortable dates [2012-11-10])
@@ -67,15 +67,14 @@
 				var orderableColumns=[];//!important
 				var searchableColumns=[];//!important
 				var table_data = table.data();
-				var table_searchable = !('dynamicTableSearchable' in table_data) || table_data.dynamicTableSearchable;
-				var table_orderable = !('dynamicTableOrderable' in table_data) || table_data.dynamicTableOrderable;
+				var table_searchable = !table.hasClass('dynamicTable-notSearchable');
+				var table_orderable = !table.hasClass('dynamicTable-notOrderable');
 				head.find('th').each(function(i){
 					var th = $(this);
-					var data = th.data();
-					if(table_orderable && (!('dynamicTableOrderable' in data) || data.dynamicTableOrderable == 'true')){
+					if(table_orderable && !th.hasClass('dynamicTable-notOrderable')){
 						orderableColumns.push(i);
 					}
-					if(table_searchable && (!('dynamicTableSearchable' in data) || data.dynamicTableSearchable == 'true')){
+					if(table_searchable && !th.hasClass('dynamicTable-notSearchable')){
 						searchableColumns.push(i);
 					}
 				});
@@ -114,8 +113,8 @@
 				var tds = tr.find('td');
 				for(var i in data.searchableColumns){
 					var td = $(tds.get(data.searchableColumns[i]));
-					rowContents.push(td.text());
 					var td_data = td.data();
+					rowContents.push(td.text());
 					if('dynamicTableOrderValue' in td_data) rowContents.push(td_data.dynamicTableOrderValue); //also allow search by orderValues
 				}
 				for(var i in rowContents){
