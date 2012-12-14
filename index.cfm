@@ -8,12 +8,17 @@
 	<script src="/universal/javascript/jquery.js"></script>
 	<link rel="stylesheet" href="http://dev.ucanr.edu/jw/dynamicTable/bootstrap/css/bootstrap.css">
 	<script src="jQuery.dynamicTable.js"></script>
-	<script src="controls.js"></script>
+	<script src="jQuery.dynamicTable.bootstrap.js"></script>
 	<style>
 		th.orderable {
 			cursor:pointer;
 		}
 	</style>
+	<script>
+		$(function(){
+			$('table').dynamicTableBootstrap();
+		});
+	</script>
 </head>
 <body style="padding:1em;">
 	<table class="table table-bordered">
@@ -22,7 +27,7 @@
 				<th>Last Name</th>
 				<th>First Name</th>
 				<th>Date of Birth</th>
-				<th>Status</th>
+				<th class="dynamicTable-notOrderable dynamicTable-notSearchable">Status</th>
 				<th class="dynamicTable-notOrderable dynamicTable-notSearchable dynamicTable-searchContainer"></th>
 			</tr>
 		</thead>

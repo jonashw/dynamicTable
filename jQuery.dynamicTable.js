@@ -41,7 +41,7 @@
 				case_sensitive [boolean, default: true]
  */
 (function($){
-	$.fn.dynamicTable = function( method ) {
+	$.fn.dynamicTable = function(method){
 		if ( methods[method] ) {
 			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
 		} else if ( typeof method === 'object' || ! method ) {
