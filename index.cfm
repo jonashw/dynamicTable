@@ -7,14 +7,15 @@
 	<title></title>
 	<script src="/universal/javascript/jquery.js"></script>
 	<link rel="stylesheet" href="http://dev.ucanr.edu/jw/dynamicTable/bootstrap/css/bootstrap.css">
-	<script src="jQuery.dynamicTable.js"></script>
-	<script src="jQuery.dynamicTable.bootstrap.js"></script>
+	<script src="jQuery.dynamicTable.min.js"></script>
+	<script src="jQuery.dynamicTable.bootstrap.min.js"></script>
 	<style>
 		th.orderable {
 			cursor:pointer;
 		}
 	</style>
 	<script>
+		var t;
 		$(function(){
 			$('table').dynamicTableBootstrap();
 		});

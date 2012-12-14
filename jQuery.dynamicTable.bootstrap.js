@@ -14,7 +14,10 @@
 				var table = $(this);
 				if(!table.hasClass('dynamicTable-notSearchable')){
 					//searchable!
-					var searchInput = $('<input>').attr({type:'search', placeholder:'Search'});
+					var searchInput = $('<input>')
+						.attr({type:'search', placeholder:'Search'})
+						.addClass('dynamicTable-searchInput')
+					;
 					var searchContainer = table.find('.dynamicTable-searchContainer');
 					if(searchContainer.length){
 						searchInput.appendTo(searchContainer).css('margin',0);
@@ -42,6 +45,7 @@
 					var o = $('<i></i>').addClass('icon-resize-vertical').css('opacity','0.3').css('float','right');
 					th
 						//initialize each TH
+						.css('cursor','pointer')
 						.append(o)
 						.addClass('orderable')
 						//interpret user input on each TH

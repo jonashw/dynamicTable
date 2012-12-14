@@ -160,8 +160,10 @@
 			});
 			//do the sort
 			rowOrderables.sort(function(a,b){
-				if(a.value > b.value) return 1;
-				if(a.value < b.value) return -1;
+				var a = isNaN(a.value) ? a.value : parseFloat(a.value);
+				var b = isNaN(b.value) ? b.value : parseFloat(b.value);
+				if(a > b) return 1;
+				if(a < b) return -1;
 				return 0;
 			});
 			for(var i in rowOrderables){
