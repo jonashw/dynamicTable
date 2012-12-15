@@ -1,14 +1,13 @@
 dynamicTable
 ============
 
-/*
- *  dynamicTable:	A jQuery plugin that re-arranges and filters an HTML table based on commands
- *
- *		written by Jonathan Wilson (2012)
- *
- *		Note: 	Beyond DOM re-organization (moves, shows, hides), the affected HTML tables are not decorated in any way.
- *				A separate UI module will be needed to interpret user intent (issue commands) and to display current state.
- *
+   dynamicTable:	A jQuery plugin that re-arranges and filters an HTML table based on commands
+
+		written by Jonathan Wilson (2012)
+
+		Note: 	Beyond DOM re-organization (moves, shows, hides), the affected HTML tables are not decorated in any way.
+				A separate UI module will be needed to interpret user intent (issue commands) and to display current state.
+
 	Public API:
 		Methods:
 			$().dynamicTable()
@@ -42,4 +41,3 @@ dynamicTable
 					Note: This order value is also searchable.
 			Constructor Options:
 				case_sensitive [boolean, default: true]
- */
